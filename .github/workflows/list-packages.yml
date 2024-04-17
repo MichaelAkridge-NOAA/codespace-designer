@@ -24,6 +24,6 @@ jobs:
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          git add docs/packages.json
+          git add packages.json
           git commit -m "Updated package list for github pages" || echo "No changes to commit"
           git push
