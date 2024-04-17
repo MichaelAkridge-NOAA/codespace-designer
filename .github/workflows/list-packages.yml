@@ -9,10 +9,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Setup GitHub CLI
-        run: gh auth setup-git
-
       - name: List packages and write to file
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
