@@ -15,16 +15,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Listing container packages for the organization nmfs-opensci"
-
-          # Using GitHub CLI to fetch package data
-          gh api \
+          
+          curl -L \
             -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            /orgs/nmfs-opensci/packages?package_type=container
+            "https://api.github.com/orgs/nmfs-opensci/packages?package_type=container" > packages.json
+          
+          cat packages.json  # Output the content of packages.json to log for verification
+
       - name: Commit and push if changes
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git add packages.json
-          git commit -m "Updated package list for GitHub Page using GitHub CLI" || echo "No changes to commit"
+          git commit -m "Updated package list for GitHub Page using curl" || echo "No changes to commit"
           git push
+
