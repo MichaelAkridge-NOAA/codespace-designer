@@ -12,22 +12,37 @@ jobs:
       - name: List packages and write to file
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          export ORG='nmfs-opensci'
-          echo "Listing container packages for the organization: $ORG"
+       run: |
+         export ORG='nmfs-opensci'
+         echo "Listing container packages for the organization: $ORG"
 
-          packages=$(gh api --paginate "/orgs/\"$ORG\"/packages?package_type=container" -q '.[] | .name + " " + .repository.name') || echo "Failed to retrieve packages"
-          echo "$packages" > packages.txt
-          cat packages.txt
+         # Use gh api with appropriate headers and error handling
+         packages=$(gh api \
+           -H "Accept: application/vnd.github+json" \
+           -H "X-GitHub-Api-Version: 2022-11-28" \
+           "/orgs/\"$ORG\"/packages?package_type=container" 2>&1 || echo "Failed to retrieve packages")
 
-          while IFS= read -r line; do
-            package_name="${line%% *}"
-            repo_name="${line#* }"
-            echo "org: $ORG repo: $repo_name --> package name $package_name"
+         # Check if packages variable is empty
+         if [[ -z "$packages" ]]; then
+           echo "No container packages found for organization: $ORG"
+         else
+           echo "$packages" > packages.txt
+           cat packages.txt
+         fi
 
-            versions=$(gh api --paginate "/orgs/\"$ORG\"/packages/container/${package_name}/versions" -q '.[] | .name' | sort -V) || echo "Failed to retrieve versions for $package_name"
-            echo "$versions"
-          done < packages.txt
+         # Loop through packages (handle potential errors)
+         while IFS= read -r line; do
+           package_name="${line%% *}"
+           repo_name="${line#* }"
+           echo "org: $ORG repo: $repo_name --> package name $package_name"
+
+           versions=$(gh api \
+             -H "Accept: application/vnd.github+json" \
+             -H "X-GitHub-Api-Version: 2022-11-28" \
+             "/orgs/\"$ORG\"/packages/container/${package_name}/versions" 2>&1 || echo "Failed to retrieve versions for $package_name")
+
+           echo "$versions"
+         done < packages.txt
 
       - name: Commit and push if changes
         run: |
