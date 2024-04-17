@@ -18,7 +18,7 @@ jobs:
         run: |
           curl -H "Authorization: token ${GITHUB_TOKEN}" \
                -H "Accept: application/vnd.github.v3+json" \
-               "https://api.github.com/orgs/nmfs-opensci/packages?repo_name=container-images" > packages.json
+               "https://api.github.com/orgs/nmfs-opensci/packages?package_type=container&repo_name=container-images" > packages.json
 
       - name: Commit and push if changes
         run: |
@@ -27,3 +27,4 @@ jobs:
           git add packages.json
           git commit -m "Updated package list for github pages" || echo "No changes to commit"
           git push
+
