@@ -15,13 +15,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Listing container packages for the organization nmfs-opensci"
-          
+    
+          # Fetch and save raw JSON
           curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/orgs/nmfs-opensci/packages?package_type=container&repo_name=container-images" > packages.json
-          
+            "https://api.github.com/orgs/nmfs-opensci/packages?package_type=container&repo_name=container-images" > raw_packages.json
+    
+          # Optional: Parse JSON to create a cleaner output (requires jq to be installed)
+          cat raw_packages.json | jq '.[] | {id, name, package_type, url, visibility, html_url}' > packages.json
+
           cat packages.json  # Output the content of packages.json to log for verification
 
       - name: Commit and push if changes
@@ -31,3 +35,4 @@ jobs:
           git add packages.json
           git commit -m "Updated package list for GitHub Page using curl" || echo "No changes to commit"
           git push
+
