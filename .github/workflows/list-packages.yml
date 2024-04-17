@@ -17,7 +17,7 @@ jobs:
           export ORG='nmfs-opensci'  # Set your organization name here
           echo "Listing container packages for the organization: $ORG"
           
-          packages=$(gh api --paginate "/orgs/${ORG}/packages?package_type=container" -q '.[] | .name + " " + .repository.name')
+          packages=$(gh api --paginate "/orgs/nmfs-opensci/packages?package_type=container" -q '.[] | .name + " " + .repository.name')
           echo "$packages" > packages.txt
           cat packages.txt
 
@@ -26,7 +26,7 @@ jobs:
             repo_name=$(echo "$response" | cut -d ' ' -f 2)
             echo "org: $ORG repo: $repo_name --> package name $package_name"
             
-            versions=$(gh api --paginate "/orgs/${ORG}/packages/container/${package_name}/versions" -q '.[] | .name' | sort -V)
+            versions=$(gh api --paginate "/orgs/nmfs-opensci/packages/container/${package_name}/versions" -q '.[] | .name' | sort -V)
             echo "$versions"
           done
 
