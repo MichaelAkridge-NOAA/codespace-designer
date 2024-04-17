@@ -7,43 +7,42 @@ jobs:
   list-packages:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: List packages and write to file
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       run: |
-         export ORG='nmfs-opensci'
-         echo "Listing container packages for the organization: $ORG"
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: List packages and write to file
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        export ORG='nmfs-opensci'
+        echo "Listing container packages for the organization: $ORG"
 
-         # Use gh api with appropriate headers and error handling
-         packages=$(gh api \
-           -H "Accept: application/vnd.github+json" \
-           -H "X-GitHub-Api-Version: 2022-11-28" \
-           "/orgs/\"$ORG\"/packages?package_type=container" 2>&1 || echo "Failed to retrieve packages")
+        # Use gh api with appropriate headers and error handling
+        packages=$(gh api \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          "/orgs/\"$ORG\"/packages?package_type=container" 2>&1 || echo "Failed to retrieve packages")
 
-         # Check if packages variable is empty
-         if [[ -z "$packages" ]]; then
-           echo "No container packages found for organization: $ORG"
-         else
-           echo "$packages" > packages.txt
-           cat packages.txt
-         fi
+        # Check if packages variable is empty
+        if [[ -z "$packages" ]]; then
+          echo "No container packages found for organization: $ORG"
+        else
+          echo "$packages" > packages.txt
+          cat packages.txt
+        fi
 
-         # Loop through packages (handle potential errors)
-         while IFS= read -r line; do
-           package_name="${line%% *}"
-           repo_name="${line#* }"
-           echo "org: $ORG repo: $repo_name --> package name $package_name"
+        # Loop through packages (handle potential errors)
+        while IFS= read -r line; do
+          package_name="${line%% *}"
+          repo_name="${line#* }"
+          echo "org: $ORG repo: $repo_name --> package name $package_name"
 
-           versions=$(gh api \
-             -H "Accept: application/vnd.github+json" \
-             -H "X-GitHub-Api-Version: 2022-11-28" \
-             "/orgs/\"$ORG\"/packages/container/${package_name}/versions" 2>&1 || echo "Failed to retrieve versions for $package_name")
+          versions=$(gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "/orgs/\"$ORG\"/packages/container/${package_name}/versions" 2>&1 || echo "Failed to retrieve versions for $package_name")
 
-           echo "$versions"
-         done < packages.txt
-
+          echo "$versions"
+        done < packages.txt
       - name: Commit and push if changes
         run: |
           git config --global user.email "action@github.com"
