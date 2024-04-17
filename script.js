@@ -1,6 +1,6 @@
 // Function to fetch and display packages in a dropdown
 function loadPackages() {
-  fetch('docs/packages.txt')
+  fetch('packages.txt')
     .then(response => response.text())  // Convert the response to text
     .then(text => {
       const lines = text.split('\n');  // Split the text into lines
