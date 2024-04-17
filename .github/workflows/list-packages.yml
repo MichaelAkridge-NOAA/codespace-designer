@@ -1,0 +1,29 @@
+name: List and Save GitHub Packages
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 0 * * *' # Run daily
+
+jobs:
+  list-and-save-packages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: List packages and save to file
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -H "Authorization: token ${GITHUB_TOKEN}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               "https://api.github.com/orgs/nmfs-opensci/packages?repo_name=container-images" > packages.json
+
+      - name: Commit and push if changes
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add packages.json
+          git commit -m "Updated package list for github pages" || echo "No changes to commit"
+          git push
