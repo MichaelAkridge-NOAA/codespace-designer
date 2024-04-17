@@ -13,21 +13,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          export ORG='nmfs-opensci'  # Set your organization name here
+          export ORG='nmfs-opensci'
           echo "Listing container packages for the organization: $ORG"
-          
-          packages=$(gh api --paginate "/orgs/${ORG}/packages?package_type=container" -q '.[] | .name + " " + .repository.name')
+
+          packages=$(gh api --paginate "/orgs/\"$ORG\"/packages?package_type=container" -q '.[] | .name + " " + .repository.name') || echo "Failed to retrieve packages"
           echo "$packages" > packages.txt
           cat packages.txt
 
-          echo "$packages" | while IFS= read -r response; do
-            package_name=$(echo "$response" | cut -d ' ' -f 1)
-            repo_name=$(echo "$response" | cut -d ' ' -f 2)
+          while IFS= read -r line; do
+            package_name="${line%% *}"
+            repo_name="${line#* }"
             echo "org: $ORG repo: $repo_name --> package name $package_name"
-            
-            versions=$(gh api --paginate "/orgs/${ORG}/packages/container/${package_name}/versions" -q '.[] | .name' | sort -V)
+
+            versions=$(gh api --paginate "/orgs/\"$ORG\"/packages/container/${package_name}/versions" -q '.[] | .name' | sort -V) || echo "Failed to retrieve versions for $package_name"
             echo "$versions"
-          done
+          done < packages.txt
 
       - name: Commit and push if changes
         run: |
@@ -36,4 +36,3 @@ jobs:
           git add packages.txt
           git commit -m "Updated package list for GitHub Page using GitHub CLI" || echo "No changes to commit"
           git push
-
