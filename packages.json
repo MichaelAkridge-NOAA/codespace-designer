@@ -1,3 +1,4 @@
-[
-
-]
+{
+  "message": "The package_type parameter is invalid.",
+  "documentation_url": "https://docs.github.com/rest/packages/packages#list-packages-for-an-organization"
+}
