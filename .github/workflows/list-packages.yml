@@ -21,9 +21,6 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /orgs/nmfs-opensci/packages?package_type=container
-          
-          cat packages.json  # Output the content of packages.json to log for verification
-
       - name: Commit and push if changes
         run: |
           git config --global user.email "action@github.com"
