@@ -87,33 +87,32 @@ function generateDevContainerJSON() {
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          {{ content }}
         <select id="packageSelector"></select>
+          
 <!-- CPU Selector -->
 <label for="cpuSelector">CPUs:</label>
 <input type="number" id="cpuSelector" name="cpus" min="1" max="8" value="2">
-
+<br>
+        
+<!-- Ports -->
+<label for="ports">Enter Ports:</label>
+<input type="text" id="ports" name="ports" placeholder="Enter ports separated by commas e.g., 8080, 3000">
+<br>
 <!-- VS Code Extensions -->
-<label for="extensionSelector">VS Code Extensions:</label>
+<label for="extensionSelector">Select VS Code Extensions:</label>
 <select id="extensionSelector" multiple>
   <!-- Options will be populated dynamically -->
 </select>
-
-<!-- Ports -->
-<label for="ports">Ports:</label>
-<input type="text" id="ports" name="ports" placeholder="Enter ports separated by commas e.g., 8080, 3000">
-
+<br>
 <!-- Generate Button -->
 <button onclick="generateDevContainerJSON()">Generate devcontainer.json</button>
-
+<br>
 <!-- Output -->
 <pre id="output"></pre>
 
+
+       {{ content }}
         </section>
-
-
-
-
         <aside id="sidebar">
           {% if site.show_downloads %}
             <a href="{{ site.github.zip_url }}" class="button">
