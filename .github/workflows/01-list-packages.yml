@@ -1,4 +1,4 @@
-name: List and Save GitHub Packages
+name: 01 | List and Save GitHub Packages
 on:
   workflow_dispatch:
   # schedule:
@@ -12,7 +12,7 @@ jobs:
 
       - name: List packages and write to file
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_API_TOKEN_02 }}
         run: |
           echo "Listing container packages for the organization nmfs-opensci"
     
