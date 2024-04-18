@@ -184,7 +184,9 @@ function generateDevContainerJSON() {
             
     <!-- Generate Button -->
     <button onclick="generateDevContainerJSON()">Generate Configuration</button>
-        
+    <!-- Download Button -->
+    <button id="downloadBtn" style="display:none;" onclick="downloadJSON()">Download devcontainer.json</button>
+    
     <!-- Output -->
     <h2>Generated Devcontainer:</h2>
     <pre id="output"></pre>
