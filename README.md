@@ -1,9 +1,12 @@
 # Codespace Designer
-- Configure your GitHub Codespace environment
-- Uses Github Pages to help design a codespace devcontainer file
-  - https://michaelakridge-noaa.github.io/codespace-designer/
-  
-[![](./docs/button.png)](https://michaelakridge-noaa.github.io/codespace-designer/)
+  <a href="https://michaelakridge-noaa.github.io/codespace-designer/" align="right">
+    <img src="./docs/button.png" alt="Open Codespace Designer" align="right">
+  </a>
+
+- Use to configure a GitHub Codespace environment
+- Powered by Github Pages to help design a codespace devcontainer file
+  - Link: https://michaelakridge-noaa.github.io/codespace-designer/
+
 
 ## Design a Codespace 
 [![](./docs/s01.png)](https://michaelakridge-noaa.github.io/codespace-designer/)
