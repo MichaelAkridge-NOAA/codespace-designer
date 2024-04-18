@@ -3,6 +3,12 @@
 
 @import 'jekyll-theme-architect';
 
+header h1 {width: 750;}
+header {padding-top: 10px;
+padding-bottom: 10px;
+}
+.inner{width: 1080px;}
+
     body {
         font-family: Arial, sans-serif;
         padding: 20px;
