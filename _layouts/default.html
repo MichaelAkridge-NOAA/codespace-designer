@@ -83,6 +83,9 @@ function generateDevContainerJSON() {
     const cpus = document.getElementById('cpuSelector').value;
     const extensions = Array.from(document.getElementById('extensionSelector').selectedOptions).map(opt => opt.value);
     const ports = document.getElementById('ports').value.split(',').map(port => port.trim());
+    const updateContentCommand = document.getElementById('updateContentCommand').value;
+    const postCreateCommand = document.getElementById('postCreateCommand').value;
+    const postStartCommand = document.getElementById('postStartCommand').value;
 
     const devContainerConfig = {
         "name": name,
@@ -91,13 +94,16 @@ function generateDevContainerJSON() {
         "hostRequirements": {
             "cpus": parseInt(cpus)
         },
-        "forwardPorts": ports.map(Number), // Convert port strings to numbers
+        "forwardPorts": ports.map(Number),
         "portsAttributes": {},
         "customizations": {
             "vscode": {
                 "extensions": extensions
             }
-        }
+        },
+        "updateContentCommand": updateContentCommand,
+        "postCreateCommand": postCreateCommand,
+        "postStartCommand": postStartCommand
     };
 
     // Populate port attributes using the image name as the label
@@ -111,6 +117,7 @@ function generateDevContainerJSON() {
     // Output the JSON configuration in a formatted way
     document.getElementById('output').textContent = JSON.stringify(devContainerConfig, null, 2);
 }
+
 
 
 
@@ -136,7 +143,7 @@ function generateDevContainerJSON() {
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-    <h1>Codespace Devcontainer File Generator</h1>
+    <h1>Design Codespace</h1>
     <p>Configure your GitHub Codespace environment:</p>
     <!-- Name -->
     <label for="nameField">Name:</label>
@@ -145,9 +152,10 @@ function generateDevContainerJSON() {
     <!-- Container Image Selector -->
     <label for="packageSelector">Select Container Image:</label>
     <select id="packageSelector"></select>
+          
      <!-- Workspace Folder -->
     <label for="workspaceField">Workspace Folder:</label>
-    <input type="text" id="workspaceField" name="workspace" placeholder="Enter workspace folder path">
+    <input type="text" id="workspaceField" name="workspace" placeholder="Enter workspace folder path if any e.g. /home/rstudio/workspace ">
           
     <!-- CPU Selector -->
     <label for="cpuSelector">Number of CPUs:</label>
@@ -162,7 +170,18 @@ function generateDevContainerJSON() {
     <select id="extensionSelector" multiple>
       <!-- Options will be populated dynamically -->
     </select>
-        
+    <!-- Update Content Command -->
+    <label for="updateContentCommand">Update Content Command:</label>
+    <textarea id="updateContentCommand" placeholder="Command to Update contianer e.g., python3 -m pip install -r requirements.txt"></textarea>
+
+    <!-- Post Create Command -->
+    <label for="postCreateCommand">Post Create Command:</label>
+    <textarea id="postCreateCommand" placeholder="Command to run after creating the container"></textarea>
+
+    <!-- Post Start Command -->
+    <label for="postStartCommand">Post Start Command:</label>
+    <textarea id="postStartCommand" placeholder="Command to run after starting the container e.g. ./post_start.sh "></textarea>
+            
     <!-- Generate Button -->
     <button onclick="generateDevContainerJSON()">Generate Configuration</button>
         
