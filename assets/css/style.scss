@@ -3,11 +3,14 @@
 
 @import 'jekyll-theme-architect';
 
-header h1 {width: 750px;}
+header h1 {
+    width: 100%; /* Full width of the header container */
+}
+
 header {padding-top: 10px;
 padding-bottom: 10px;
 }
-.inner{width: 1080px;}
+.inner{width: 100%;}
 
     body {
         font-family: Arial, sans-serif;
