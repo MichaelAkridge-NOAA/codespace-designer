@@ -14,6 +14,58 @@
 {% seo %}
 
     {% include head-custom.html %}
+
+    <script>
+      fetch('packages.json')
+        .then(response => response.json())
+        .then(data => {
+          const selector = document.getElementById('packageSelector');
+          data.forEach(pkg => {
+            const option = document.createElement('option');
+            option.value = pkg.name; // Use the package name as the value
+            option.textContent = pkg.name; // Also use the name as the text content
+            selector.appendChild(option);
+          });
+        })
+        .catch(error => console.error('Failed to load packages:', error));
+
+fetch('extensions.json')  // 
+  .then(response => response.json())
+  .then(data => {
+    const selector = document.getElementById('extensionSelector');
+    data.forEach(ext => {
+      const option = document.createElement('option');
+      option.value = ext;
+      option.textContent = ext;
+      selector.appendChild(option);
+    });
+  })
+  .catch(error => console.error('Failed to load extensions:', error));
+
+function generateDevContainerJSON() {
+  const image = document.getElementById('packageSelector').value;
+  const cpus = document.getElementById('cpuSelector').value;
+  const extensions = Array.from(document.getElementById('extensionSelector').selectedOptions).map(opt => opt.value);
+  const ports = document.getElementById('ports').value.split(',');
+
+  const devContainerConfig = {
+    "image": image,
+    "hostRequirements": {
+      "cpus": parseInt(cpus)
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": extensions
+      }
+    },
+    // Add additional customizations based on ports or other inputs
+  };
+
+  // Output the JSON configuration in a formatted way
+  document.getElementById('output').textContent = JSON.stringify(devContainerConfig, null, 2);
+}
+
+    </script>
   </head>
 
   <body>
@@ -37,23 +89,30 @@
         <section id="main-content">
           {{ content }}
         <select id="packageSelector"></select>
+<!-- CPU Selector -->
+<label for="cpuSelector">CPUs:</label>
+<input type="number" id="cpuSelector" name="cpus" min="1" max="8" value="2">
 
-    <script>
-      fetch('packages.json')
-        .then(response => response.json())
-        .then(data => {
-          const selector = document.getElementById('packageSelector');
-          data.forEach(pkg => {
-            const option = document.createElement('option');
-            option.value = pkg.name; // Use the package name as the value
-            option.textContent = pkg.name; // Also use the name as the text content
-            selector.appendChild(option);
-          });
-        })
-        .catch(error => console.error('Failed to load packages:', error));
-    </script>
+<!-- VS Code Extensions -->
+<label for="extensionSelector">VS Code Extensions:</label>
+<select id="extensionSelector" multiple>
+  <!-- Options will be populated dynamically -->
+</select>
+
+<!-- Ports -->
+<label for="ports">Ports:</label>
+<input type="text" id="ports" name="ports" placeholder="Enter ports separated by commas e.g., 8080, 3000">
+
+<!-- Generate Button -->
+<button onclick="generateDevContainerJSON()">Generate devcontainer.json</button>
+
+<!-- Output -->
+<pre id="output"></pre>
 
         </section>
+
+
+
 
         <aside id="sidebar">
           {% if site.show_downloads %}
