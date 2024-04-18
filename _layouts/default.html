@@ -77,23 +77,27 @@ fetch('extensions.json')  //
   .catch(error => console.error('Failed to load extensions:', error));
 
 function generateDevContainerJSON() {
+    const name = document.getElementById('nameField').value;
+    const workspaceFolder = document.getElementById('workspaceField').value;
     const image = document.getElementById('packageSelector').value;
     const cpus = document.getElementById('cpuSelector').value;
     const extensions = Array.from(document.getElementById('extensionSelector').selectedOptions).map(opt => opt.value);
     const ports = document.getElementById('ports').value.split(',').map(port => port.trim());
 
     const devContainerConfig = {
+        "name": name,
+        "workspaceFolder": workspaceFolder,
         "image": image,
         "hostRequirements": {
             "cpus": parseInt(cpus)
         },
+        "forwardPorts": ports.map(Number), // Convert port strings to numbers
+        "portsAttributes": {},
         "customizations": {
             "vscode": {
                 "extensions": extensions
             }
-        },
-        "forwardPorts": ports.map(Number), // Convert port strings to numbers
-        "portsAttributes": {}
+        }
     };
 
     // Populate port attributes using the image name as the label
@@ -107,6 +111,7 @@ function generateDevContainerJSON() {
     // Output the JSON configuration in a formatted way
     document.getElementById('output').textContent = JSON.stringify(devContainerConfig, null, 2);
 }
+
 
 
     </script>
@@ -133,11 +138,17 @@ function generateDevContainerJSON() {
         <section id="main-content">
     <h1>Codespace Devcontainer File Generator</h1>
     <p>Configure your GitHub Codespace environment:</p>
+    <!-- Name -->
+    <label for="nameField">Name:</label>
+    <input type="text" id="nameField" name="name" placeholder="Enter name of the Codespace">
 
     <!-- Container Image Selector -->
     <label for="packageSelector">Select Container Image:</label>
     <select id="packageSelector"></select>
-        
+     <!-- Workspace Folder -->
+    <label for="workspaceField">Workspace Folder:</label>
+    <input type="text" id="workspaceField" name="workspace" placeholder="Enter workspace folder path">
+          
     <!-- CPU Selector -->
     <label for="cpuSelector">Number of CPUs:</label>
     <input type="number" id="cpuSelector" name="cpus" min="1" max="8" value="2">
