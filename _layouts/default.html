@@ -124,14 +124,16 @@ function toggleAdvancedSettings() {
 function generateDevContainerJSON() {
     const name = document.getElementById('nameField').value;
     const workspaceFolder = document.getElementById('workspaceField').value;
-    const image = document.getElementById('packageSelector').value;
     const cpus = document.getElementById('cpuSelector').value;
     const extensions = Array.from(document.getElementById('extensionSelector').selectedOptions).map(opt => opt.value);
     const ports = document.getElementById('ports').value.split(',').map(port => port.trim());
     const updateContentCommand = document.getElementById('updateContentCommand').value;
     const postCreateCommand = document.getElementById('postCreateCommand').value;
     const postStartCommand = document.getElementById('postStartCommand').value;
-
+    // Prepend the text to the selected image value
+    const baseImageURL = "ghcr.io/nmfs-opensci/";
+    const selectedImage = document.getElementById('packageSelector').value;
+    const image = baseImageURL + selectedImage;
     const devContainerConfig = {
         "name": name,
         "workspaceFolder": workspaceFolder,
