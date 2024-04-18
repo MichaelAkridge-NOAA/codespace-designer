@@ -6,7 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}" media="screen" type="text/css">
     <link rel="stylesheet" href="{{ '/assets/css/print.css' | relative_url }}" media="print" type="text/css">
-
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        line-height: 1.6;
+    }
+    label {
+        display: block;
+        margin-top: 20px;
+        font-weight: bold;
+    }
+    input, select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+    }
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    pre {
+        background-color: #f4f4f4;
+        border: 1px solid #ddd;
+        padding: 10px;
+        overflow: auto;
+    }
+</style>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
@@ -87,32 +121,37 @@ function generateDevContainerJSON() {
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-        <select id="packageSelector"></select>
-          
-<!-- CPU Selector -->
-<label for="cpuSelector">CPUs:</label>
-<input type="number" id="cpuSelector" name="cpus" min="1" max="8" value="2">
-<br>
+    <h1>Codespace Devcontainer File Generator</h1>
+    <p>Configure your GitHub Codespace environment:</p>
+
+    <!-- Container Image Selector -->
+    <label for="packageSelector">Select Container Image:</label>
+    <select id="packageSelector"></select>
         
-<!-- Ports -->
-<label for="ports">Enter Ports:</label>
-<input type="text" id="ports" name="ports" placeholder="Enter ports separated by commas e.g., 8080, 3000">
-<br>
-<!-- VS Code Extensions -->
-<label for="extensionSelector">Select VS Code Extensions:</label>
-<select id="extensionSelector" multiple>
-  <!-- Options will be populated dynamically -->
-</select>
-<br>
-<!-- Generate Button -->
-<button onclick="generateDevContainerJSON()">Generate devcontainer.json</button>
-<br>
-<!-- Output -->
-<pre id="output"></pre>
+    <!-- CPU Selector -->
+    <label for="cpuSelector">Number of CPUs:</label>
+    <input type="number" id="cpuSelector" name="cpus" min="1" max="8" value="2">
+        
+    <!-- Ports -->
+    <label for="ports">Ports (comma-separated, e.g., 8080, 3000):</label>
+    <input type="text" id="ports" name="ports" placeholder="Enter ports">
+        
+    <!-- VS Code Extensions -->
+    <label for="extensionSelector">Select VS Code Extensions:</label>
+    <select id="extensionSelector" multiple>
+      <!-- Options will be populated dynamically -->
+    </select>
+        
+    <!-- Generate Button -->
+    <button onclick="generateDevContainerJSON()">Generate Configuration</button>
+        
+    <!-- Output -->
+    <h2>Generated Devcontainer:</h2>
+    <pre id="output"></pre>
 
 
-       {{ content }}
-        </section>
+{{ content }}
+</section>
         <aside id="sidebar">
           {% if site.show_downloads %}
             <a href="{{ site.github.zip_url }}" class="button">
