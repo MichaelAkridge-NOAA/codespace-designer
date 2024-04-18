@@ -1,8 +1,13 @@
 # Codespace Designer
 - Configure your GitHub Codespace environment
 - Uses Github Pages to help design a codespace devcontainer file
+## Visit the Designer: https://michaelakridge-noaa.github.io/codespace-designer/
+[![](./docs/button.png)](https://michaelakridge-noaa.github.io/codespace-designer/)
 
 ## Design Codespace
+[![](./docs/s01.png)](https://michaelakridge-noaa.github.io/codespace-designer/)
+
+[![](./docs/s02.png)](https://michaelakridge-noaa.github.io/codespace-designer/)
 
 ## Install
 - add to repo in a folder called ".devcontainer" e.g.:
