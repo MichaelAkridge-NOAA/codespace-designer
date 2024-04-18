@@ -4,29 +4,17 @@
 
 ## Design Codespace
 
-## Generate & Download
-
-
 ## Install
 - add to repo in a folder called ".devcontainer" e.g.:
 ```
 .devcontainer/devcontainer.json
 ```
-
-
 ## Learn More About Developing a Codespace
 - https://docs.github.com/en/codespaces/getting-started/deep-dive
 - https://docs.github.com/en/codespaces/developing-in-a-codespace/developing-in-a-codespace
 
 ## Use Pre-Configured Codespaces 
 - #### https://github.com/MichaelAkridge-NOAA/Open-Science-Codespaces
-| Codespace   | QuickStart Link  | Description | 
-| ----------- | ----------- |----------- |
-| RStudio | [![Open RStudio in GitHub Codespaces](./docs/badge_rstudio.png)](https://codespaces.new/MichaelAkridge-NOAA/Open-Science-Codespaces?devcontainer_path=.devcontainer%2Frstudio%2Fdevcontainer.json)   |  Adds RStudio Server. Install R from source and set RSPM as default CRAN mirror	|
-| RStudio Tidyverse | [![Open in GitHub Codespaces](./docs/badge_rstudio_tidyverse.png)](https://codespaces.new/MichaelAkridge-NOAA/Open-Science-Codespaces?devcontainer_path=.devcontainer%2Frstudio-tidyverse%2Fdevcontainer.json)   |Adds tidyverse packages & devtools. R packages for data science | 
-| RStudio Verse | [![Open in GitHub Codespaces](./docs/badge_rstudio_tidyverse.png)](https://codespaces.new/MichaelAkridge-NOAA/Open-Science-Codespaces?devcontainer_path=.devcontainer%2Frstudio-verse%2Fdevcontainer.json)  | Adds tex & publishing-related package to tidyverse | 
-| RStudio Geospatial |   [![Open in GitHub Codespaces](./docs/badge_rstudio_geospatial.png)](https://codespaces.new/MichaelAkridge-NOAA/Open-Science-Codespaces?devcontainer_path=.devcontainer%2Frstudio-geospatial%2Fdevcontainer.json)   | Adds geospatial packages | 
-| RStudio Shiny Server| [![Open in GitHub Codespaces](./docs/badge_rstudio_shiny.png)](https://codespaces.new/MichaelAkridge-NOAA/Open-Science-Codespaces?devcontainer_path=.devcontainer%2Frstudio-shiny%2Fdevcontainer.json)   | Adds shiny server | 
 
 ----------
 ### Disclaimer
