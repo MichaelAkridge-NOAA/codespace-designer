@@ -125,6 +125,7 @@ function generateDevContainerJSON() {
 
     // Output the JSON configuration in a formatted way
     document.getElementById('output').textContent = JSON.stringify(devContainerConfig, null, 2);
+    document.getElementById('downloadBtn').style.display = 'inline-block'; 
 }
 
 function downloadJSON() {
@@ -205,7 +206,7 @@ function downloadJSON() {
     <button onclick="generateDevContainerJSON()">Generate Configuration</button>
     <!-- Download Button -->
     <button id="downloadBtn" style="display:none;" onclick="downloadJSON()">Download devcontainer.json</button>
-
+    
     <!-- Output -->
     <h2>Generated Devcontainer:</h2>
     <pre id="output"></pre>
