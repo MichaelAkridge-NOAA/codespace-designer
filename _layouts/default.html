@@ -48,7 +48,12 @@
     font-size: 16px;     /* Increase font size for better readability */
     box-sizing: border-box; /* Includes padding and border in the element's total width and height */
 }
-
+    #advancedSettings {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 10px;
+        display: none;
+    }
 </style>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -84,6 +89,14 @@ fetch('extensions.json')  //
     });
   })
   .catch(error => console.error('Failed to load extensions:', error));
+function toggleAdvancedSettings() {
+    var advancedSettings = document.getElementById('advancedSettings');
+    if (advancedSettings.style.display === 'none') {
+        advancedSettings.style.display = 'block';
+    } else {
+        advancedSettings.style.display = 'none';
+    }
+}
 
 function generateDevContainerJSON() {
     const name = document.getElementById('nameField').value;
@@ -124,6 +137,8 @@ function generateDevContainerJSON() {
     });
 
     // Output the JSON configuration in a formatted way
+      globalJSON = JSON.stringify({ "example": "data" }, null, 2);  // Store JSON in global variable
+    
     document.getElementById('output').textContent = JSON.stringify(devContainerConfig, null, 2);
     document.getElementById('downloadBtn').style.display = 'inline-block'; 
 }
@@ -190,17 +205,23 @@ function downloadJSON() {
     <select id="extensionSelector" multiple>
       <!-- Options will be populated dynamically -->
     </select>
-    <!-- Update Content Command -->
-    <label for="updateContentCommand">Update Content Command:</label>
-    <textarea id="updateContentCommand" placeholder="Command to Update contianer e.g., python3 -m pip install -r requirements.txt"></textarea>
+<!-- Advanced Settings Toggle -->
+    <button onclick="toggleAdvancedSettings()">Advanced</button>
 
-    <!-- Post Create Command -->
-    <label for="postCreateCommand">Post Create Command:</label>
-    <textarea id="postCreateCommand" placeholder="Command to run after creating the container"></textarea>
+    <!-- Advanced Settings Container -->
+    <div id="advancedSettings">
+        <!-- Update Content Command -->
+        <label for="updateContentCommand">Update Content Command:</label>
+        <textarea id="updateContentCommand" placeholder="Command to Update container e.g., python3 -m pip install -r requirements.txt"></textarea>
 
-    <!-- Post Start Command -->
-    <label for="postStartCommand">Post Start Command:</label>
-    <textarea id="postStartCommand" placeholder="Command to run after starting the container e.g. ./post_start.sh "></textarea>
+        <!-- Post Create Command -->
+        <label for="postCreateCommand">Post Create Command:</label>
+        <textarea id="postCreateCommand" placeholder="Command to run after creating the container"></textarea>
+
+        <!-- Post Start Command -->
+        <label for="postStartCommand">Post Start Command:</label>
+        <textarea id="postStartCommand" placeholder="Command to run after starting the container e.g. ./post_start.sh"></textarea>
+    </div>
             
     <!-- Generate Button -->
     <button onclick="generateDevContainerJSON()">Generate Configuration</button>
