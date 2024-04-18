@@ -65,18 +65,18 @@
      <!-- Workspace Folder -->
     <label for="workspaceField">Workspace Folder:</label>
     <input type="text" id="workspaceField" name="workspace" placeholder="Enter workspace folder path if any e.g. /home/rstudio/workspace ">
+      
     <!-- VS Code Extensions -->
     <label for="extensionSelector">Select VS Code Extensions:</label>
     <select id="extensionSelector" multiple>
       <!-- Options will be populated dynamically -->
     </select>
+      
 <!-- Advanced Settings Toggle -->
     <button onclick="toggleAdvancedSettings()">View Advanced Settings</button>
 
     <!-- Advanced Settings Container -->
 <div id="advancedSettings" style="display: none;">
-    <!-- Ports -->
-
         <!-- Update Content Command -->
         <label for="updateContentCommand">Update Content Command:</label>
         <textarea id="updateContentCommand" placeholder="Command to Update container e.g., python3 -m pip install -r requirements.txt"></textarea>
