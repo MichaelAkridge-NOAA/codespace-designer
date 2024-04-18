@@ -2,15 +2,33 @@
 ---
 
 @import 'jekyll-theme-architect';
-
+/* Base style for smaller screens */
 header h1 {
-    width: 100%; /* Full width of the header container */
+    width: 100%; /* Full width on smaller screens */
 }
 
-header {padding-top: 10px;
-padding-bottom: 10px;
+/* Adjustments for larger screens */
+@media (min-width: 768px) { /* Common breakpoint for tablets */
+    header h1 {
+        width: 750px; /* Fixed width for larger screens */
+    }
 }
-.inner{width: 100%;}
+
+.inner {
+    width: 100%; /* Full width on smaller screens */
+}
+
+/* Adjustments for larger screens */
+@media (min-width: 1080px) { /* Breakpoint for larger screens */
+    .inner {
+        width: 1080px; /* Fixed width for desktops */
+    }
+}
+
+
+header {
+    padding-top: 10px;
+    padding-bottom: 10px;}
 
     body {
         font-family: Arial, sans-serif;
