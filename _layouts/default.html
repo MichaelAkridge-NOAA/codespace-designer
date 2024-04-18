@@ -54,6 +54,29 @@
         margin-top: 10px;
         display: none;
     }
+  .input-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-right: 10px; /* Adds spacing between the input fields */
+}
+
+.input-group:last-child {
+    margin-right: 0; /* Removes margin from the last input group to align properly */
+}
+
+input {
+    padding: 8px;
+    margin-top: 5px; /* Space between label and input */
+    width: 100%; /* Full width of the container */
+}
+
 </style>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -187,29 +210,37 @@ function downloadJSON() {
     <!-- Container Image Selector -->
     <label for="packageSelector">Select Container Image:</label>
     <select id="packageSelector"></select>
-          
+        
+<!-- CPU and Ports Container -->
+<div class="input-row">
+    <!-- CPU Selector -->
+    <div class="input-group">
+        <label for="cpuSelector">Number of CPUs:</label>
+        <input type="number" id="cpuSelector" name="cpus" min="1" max="8" value="2">
+    </div>
+
+    <!-- Ports -->
+    <div class="input-group">
+        <label for="ports">Ports (comma-separated, e.g., 8080, 3000):</label>
+        <input type="text" id="ports" name="ports" placeholder="Enter ports">
+    </div>
+</div>
+
      <!-- Workspace Folder -->
     <label for="workspaceField">Workspace Folder:</label>
     <input type="text" id="workspaceField" name="workspace" placeholder="Enter workspace folder path if any e.g. /home/rstudio/workspace ">
-          
-    <!-- CPU Selector -->
-    <label for="cpuSelector">Number of CPUs:</label>
-    <input type="number" id="cpuSelector" name="cpus" min="1" max="8" value="2">
-        
-    <!-- Ports -->
-    <label for="ports">Ports (comma-separated, e.g., 8080, 3000):</label>
-    <input type="text" id="ports" name="ports" placeholder="Enter ports">
-        
     <!-- VS Code Extensions -->
     <label for="extensionSelector">Select VS Code Extensions:</label>
     <select id="extensionSelector" multiple>
       <!-- Options will be populated dynamically -->
     </select>
 <!-- Advanced Settings Toggle -->
-    <button onclick="toggleAdvancedSettings()">Advanced</button>
+    <button onclick="toggleAdvancedSettings()">View Advanced Settings</button>
 
     <!-- Advanced Settings Container -->
     <div id="advancedSettings">
+    <!-- Ports -->
+
         <!-- Update Content Command -->
         <label for="updateContentCommand">Update Content Command:</label>
         <textarea id="updateContentCommand" placeholder="Command to Update container e.g., python3 -m pip install -r requirements.txt"></textarea>
