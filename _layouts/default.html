@@ -6,181 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}" media="screen" type="text/css">
     <link rel="stylesheet" href="{{ '/assets/css/print.css' | relative_url }}" media="print" type="text/css">
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        padding: 20px;
-        line-height: 1.6;
-    }
-    label {
-        display: block;
-        margin-top: 20px;
-        font-weight: bold;
-    }
-    input, select {
-        width: 100%;
-        padding: 8px;
-        margin-top: 5px;
-    }
-    button {
-        margin-top: 20px;
-        padding: 10px 20px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    button:hover {
-        background-color: #0056b3;
-    }
-    pre {
-        background-color: #f4f4f4;
-        border: 1px solid #ddd;
-        padding: 10px;
-        overflow: auto;
-    }
-
-  input, select, textarea {
-    width: 100%;         /* Ensures full width */
-    padding: 8px;        /* Padding for better text visibility */
-    margin-top: 5px;     /* Margin for spacing between label and input */
-    font-size: 16px;     /* Increase font size for better readability */
-    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
-}
-    #advancedSettings {
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin-top: 10px;
-        display: none;
-    }
-  .input-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    margin-right: 10px; /* Adds spacing between the input fields */
-}
-
-.input-group:last-child {
-    margin-right: 0; /* Removes margin from the last input group to align properly */
-}
-
-input {
-    padding: 8px;
-    margin-top: 5px; /* Space between label and input */
-    width: 100%; /* Full width of the container */
-}
-
-</style>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
-
-{% seo %}
-
+    {% seo %}
     {% include head-custom.html %}
-
-    <script>
-      fetch('packages.json')
-        .then(response => response.json())
-        .then(data => {
-          const selector = document.getElementById('packageSelector');
-          data.forEach(pkg => {
-            const option = document.createElement('option');
-            option.value = pkg.name; // Use the package name as the value
-            option.textContent = pkg.name; // Also use the name as the text content
-            selector.appendChild(option);
-          });
-        })
-        .catch(error => console.error('Failed to load packages:', error));
-
-fetch('extensions.json')  // 
-  .then(response => response.json())
-  .then(data => {
-    const selector = document.getElementById('extensionSelector');
-    data.forEach(ext => {
-      const option = document.createElement('option');
-      option.value = ext;
-      option.textContent = ext;
-      selector.appendChild(option);
-    });
-  })
-  .catch(error => console.error('Failed to load extensions:', error));
-function toggleAdvancedSettings() {
-    var advancedSettings = document.getElementById('advancedSettings');
-    if (advancedSettings.style.display === 'none') {
-        advancedSettings.style.display = 'block';
-    } else {
-        advancedSettings.style.display = 'none';
-    }
-}
-
-function generateDevContainerJSON() {
-    const name = document.getElementById('nameField').value;
-    const workspaceFolder = document.getElementById('workspaceField').value;
-    const cpus = document.getElementById('cpuSelector').value;
-    const extensions = Array.from(document.getElementById('extensionSelector').selectedOptions).map(opt => opt.value);
-    const ports = document.getElementById('ports').value.split(',').map(port => port.trim());
-    const updateContentCommand = document.getElementById('updateContentCommand').value;
-    const postCreateCommand = document.getElementById('postCreateCommand').value;
-    const postStartCommand = document.getElementById('postStartCommand').value;
-    // Prepend the text to the selected image value
-    const baseImageURL = "ghcr.io/nmfs-opensci/";
-    const selectedImage = document.getElementById('packageSelector').value;
-    const image = baseImageURL + selectedImage;
-    const devContainerConfig = {
-        "name": name,
-        "workspaceFolder": workspaceFolder,
-        "image": image,
-        "hostRequirements": {
-            "cpus": parseInt(cpus)
-        },
-        "forwardPorts": ports.map(Number),
-        "portsAttributes": {},
-        "customizations": {
-            "vscode": {
-                "extensions": extensions
-            }
-        },
-        "updateContentCommand": updateContentCommand,
-        "postCreateCommand": postCreateCommand,
-        "postStartCommand": postStartCommand
-    };
-
-    // Populate port attributes using the image name as the label
-    ports.forEach(port => {
-        devContainerConfig.portsAttributes[port] = {
-            "label": image,
-            "onAutoForward": "openPreview"
-        };
-    });
-
-    // Output the JSON configuration in a formatted way
-    globalJSON = JSON.stringify(devContainerConfig, null, 2);
-    document.getElementById('output').textContent = JSON.stringify(devContainerConfig, null, 2);
-    document.getElementById('downloadBtn').style.display = 'inline-block'; 
-}
-
-function downloadJSON() {
-    const blob = new Blob([globalJSON], {type: 'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'devcontainer.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);  // Clean up the URL object
-}
-
-
-    </script>
+    <script src="/assets/js/loadPackages.js"></script>
+    <script src="/assets/js/loadExtensions.js"></script> 
+    <script src="/assets/js/loadAdvancedSettings.js"></script>
+    <script src="/assets/js/loadGenerateDevCon.js"></script>    
+    <script src="/assets/js/loadDownloadOption.js"></script>
   </head>
 
   <body>
@@ -200,8 +35,8 @@ function downloadJSON() {
     </header>
 
     <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
+    <div class="inner clearfix">
+    <section id="main-content">
     <h1>Design Codespace</h1>
     <p>Configure your GitHub Codespace environment:</p>
     <!-- Name -->
@@ -263,8 +98,6 @@ function downloadJSON() {
     <!-- Output -->
     <h2>Generated Devcontainer:</h2>
     <pre id="output"></pre>
-
-
 {{ content }}
 </section>
         <aside id="sidebar">
