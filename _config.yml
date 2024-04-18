@@ -1,4 +1,4 @@
-title: Environment-selector
-description: List & View NMFS Docker Images
+title: Codespace Designer
+description: List & View NMFS Docker Images & Build a Codespace DevContainer File
 show_downloads: true
 theme: jekyll-theme-architect
