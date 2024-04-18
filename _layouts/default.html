@@ -160,8 +160,7 @@ function generateDevContainerJSON() {
     });
 
     // Output the JSON configuration in a formatted way
-      globalJSON = JSON.stringify({ "example": "data" }, null, 2);  // Store JSON in global variable
-    
+    globalJSON = JSON.stringify(devContainerConfig, null, 2);
     document.getElementById('output').textContent = JSON.stringify(devContainerConfig, null, 2);
     document.getElementById('downloadBtn').style.display = 'inline-block'; 
 }
